@@ -55,9 +55,9 @@ sub generate_ip_counts_table {
 			continue;
 		}
 		if (exists($ip_counts_table{$ip})) {
-			$ip_counts_table{$ip}[5] += 1;
+			$ip_counts_table{$ip} += 1;
 		} else {
-			$ip_counts_table{$ip} = (0, 0, 0, 0, 0, 1);
+			$ip_counts_table{$ip} = 1;
 		}
 	}
 	return %ip_counts_table;
@@ -65,23 +65,9 @@ sub generate_ip_counts_table {
 
 sub get_top_10_ip_list_from_table {
 	my (%ip_counts_table) = @_;
-	my @top_10_ip_list = ();
-	foreach $ip (keys %ip_counts_table) {
-		my $i = 0;
-		my $el = "";
-		while (($i, $el) = each @top_10_ip_list) {
-			if ($ip_list{$ip}[5] > $ip_list{$el}[5]) {
-				break;
-			}
-		}
-		if ($i <= 10) {
-			if ($i == 0) {
-				push(@top_10_ip_list, $ip);
-			} else {
-				splice (@top_10_ip_list, $i - 1, 0, $ip);
-			}
-		}
-		splice (@top_10_ip_list, 10);
+	my @top_10_ip_list = sort { $ip_counts_table{$b} <=> $ip_counts_table{$a} } keys %ip_counts_table;
+	if ($#top_10_ip_list > 9) {
+		$#top_10_ip_list = 9;
 	}
 	return @top_10_ip_list;
 }
