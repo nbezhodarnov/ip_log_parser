@@ -4,4 +4,4 @@ FROM perl:latest
 
 COPY . .
 
-CMD [ "perl", "main.pl" ]
+CMD [ "perl", "main.pl", "tests/access.log" ]
