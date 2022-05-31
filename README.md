@@ -2,4 +2,4 @@
 Program to parse ip addresses from logs and to search for suspicious ones.
 
 Usage:
-  perl main.pl <filepath>
+  perl main.pl [filepath]
